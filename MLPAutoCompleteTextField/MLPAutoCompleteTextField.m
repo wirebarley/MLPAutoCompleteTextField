@@ -206,11 +206,10 @@ static NSString *kDefaultAutoCompleteCellIdentifier = @"_DefaultAutoCompleteCell
     if([autoCompleteObject isKindOfClass:[NSString class]]){
         suggestedString = (NSString *)autoCompleteObject;
     } else if ([autoCompleteObject conformsToProtocol:@protocol(MLPAutoCompletionObject)]){
-        suggestedString = [(id <MLPAutoCompletionObject>)autoCompleteObject autocompleteString];
+        suggestedString = [autoCompleteObject autocompleteString];
     } else {
         NSAssert(0, @"Autocomplete suggestions must either be NSString or objects conforming to the MLPAutoCompletionObject protocol.");
     }
-    
     
     [self configureCell:cell atIndexPath:indexPath withAutoCompleteString:suggestedString];
     
@@ -259,6 +258,11 @@ withAutoCompleteString:(NSString *)string
     }
     
     [cell.textLabel setTextColor:self.textColor];
+    if (autoCompleteObject != nil) {
+        [cell.detailTextLabel setText:[autoCompleteObject autocompleteSubString]];
+        [cell.detailTextLabel setFont:[UIFont fontWithName:self.font.fontName size:self.autoCompleteDetailFontSize]];
+        [cell.detailTextLabel setTextColor:self.autoCompleteTableCellDetailTextColor];
+    }
     
     if(boldedString){
         if ([cell.textLabel respondsToSelector:@selector(setAttributedText:)]) {
@@ -298,11 +302,10 @@ withAutoCompleteString:(NSString *)string
         [self closeAutoCompleteTableView];
     }
     
-    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-    NSString *autoCompleteString = selectedCell.textLabel.text;
+    id<MLPAutoCompletionObject> autoCompleteObject = self.autoCompleteSuggestions[indexPath.row];
+    NSString *autoCompleteString = [(id <MLPAutoCompletionObject>)autoCompleteObject autocompleteString];
     self.text = autoCompleteString;
     
-    id<MLPAutoCompletionObject> autoCompleteObject = self.autoCompleteSuggestions[indexPath.row];
     if(![autoCompleteObject conformsToProtocol:@protocol(MLPAutoCompletionObject)]){
         autoCompleteObject = nil;
     }
@@ -500,6 +503,8 @@ withAutoCompleteString:(NSString *)string
     [self setShouldResignFirstResponderFromKeyboardAfterSelectionOfAutoCompleteRows:YES];
     [self setAutoCompleteRowHeight:40];
     [self setAutoCompleteFontSize:13];
+    [self setAutoCompleteDetailFontSize:11];
+    
     [self setMaximumNumberOfAutoCompleteRows:3];
     [self setPartOfAutoCompleteRowHeightToCut:0.5f];
     
@@ -712,6 +717,12 @@ withAutoCompleteString:(NSString *)string
                                               blue:206/255.0
                                              alpha:1.0];
     [self setAutoCompleteTableCellTextColor:blueTextColor];
+    
+    UIColor *detailTextColor = [UIColor colorWithRed:142/255.0
+                                             green:142/255.0
+                                              blue:142/255.0
+                                             alpha:1.0];
+    [self setAutoCompleteTableCellDetailTextColor:detailTextColor];
     
     if(self.backgroundColor == [UIColor clearColor]){
         [self setAutoCompleteTableBackgroundColor:[UIColor whiteColor]];

@@ -55,6 +55,7 @@
 @property (assign) BOOL autoCompleteTableViewHidden;
 
 @property (assign) CGFloat autoCompleteFontSize;
+@property (assign) CGFloat autoCompleteDetailFontSize;
 @property (strong) NSString *autoCompleteBoldFontName;
 @property (strong) NSString *autoCompleteRegularFontName;
 
@@ -72,6 +73,7 @@
 @property (nonatomic, strong) UIColor *autoCompleteTableBackgroundColor;
 @property (strong) UIColor *autoCompleteTableCellBackgroundColor;
 @property (strong) UIColor *autoCompleteTableCellTextColor;
+@property (strong) UIColor *autoCompleteTableCellDetailTextColor;
 
 
 - (void)registerAutoCompleteCellNib:(UINib *)nib forCellReuseIdentifier:(NSString *)reuseIdentifier;

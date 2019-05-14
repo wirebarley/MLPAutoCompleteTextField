@@ -31,5 +31,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 /*Return the string that should be displayed in the autocomplete menu that 
  represents this object. (For example: a person's name.)*/
 - (NSString *)autocompleteString;
-
+- (NSString *)autocompleteSubString;
 @end
