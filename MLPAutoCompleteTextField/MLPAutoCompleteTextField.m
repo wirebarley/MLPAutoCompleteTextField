@@ -505,7 +505,7 @@ withAutoCompleteString:(NSString *)string
     [self setAutoCompleteFontSize:13];
     [self setAutoCompleteDetailFontSize:11];
     
-    [self setMaximumNumberOfAutoCompleteRows:6];
+    [self setMaximumNumberOfAutoCompleteRows:5];
     [self setPartOfAutoCompleteRowHeightToCut:0.5f];
     
     [self setMaximumEditDistance:100];
